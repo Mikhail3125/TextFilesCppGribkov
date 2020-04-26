@@ -1,17 +1,16 @@
-﻿// TextFilesCppGribkov.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
+// TextFilesCppGribkov.cpp : Этот файл содержит функцию "main". Здесь начинается и заканчивается выполнение программы.
 #include "Stdafx.h"
 using namespace std;
 ///				Variant 5
 
-int main()
+int main(int argc, char* argv[])
 {
 	SetConsoleCP(1251);
 	SetConsoleOutputCP(1251);
 	setlocale(LC_ALL, "");
-
 	//BaseLevelTask();
-	MidleLevelTask();
+	//MidleLevelTask();
 
-	//HardTaskLevel();
+	HardLevelTask();
 }
 
