@@ -1,37 +1,171 @@
 #include "Stdafx.h"
 using namespace std;
-#define MAX_Patients 10
+//#define MAX_Patients 10
 
 #ifndef _Patients
 #define _Patients
-struct Patients
+struct DateBorn
 {
-    int date;
-    int month;
-    int year;
-} dat[MAX_Patients];
+	int day;
+	int month;
+	int year;
+	bool IsCorect();
+public: void ShowDate();
+
+};
+void DateBorn::ShowDate()
+{
+	cout << day << "." << month << "." << year << endl;
+}
+bool DateBorn::IsCorect()
+{
+	bool result = false;
+	switch (month)
+	{
+	case 1:
+	case 3:
+	case 5:
+	case 7:
+	case 8:
+	case 10:
+	case 12:
+	{
+		if ((day <= 31) && (day > 0))
+			result = true;
+		break;
+	}
+
+	case 4:
+	case 6:
+	case 9:
+	case 11:
+	{
+		if ((day <= 30) && (day > 0))
+			result = true;
+		break;
+	}
+
+	case 2:
+	{
+		if (year % 4 != 0)
+		{
+			if ((day <= 28) && (day > 0))
+				result = true;
+		}
+		else
+			if (year % 400 == 0)
+			{
+				if ((day <= 29) && (day > 0))
+					result = true;
+			}
+			else
+				if ((year % 100 == 0) && (year % 400 != 0))
+				{
+					if ((day == 28) && (day > 0))
+						result = true;
+				}
+				else
+					if ((year % 4 == 0) && (year % 100 != 0))
+						if ((day <= 29) && (day > 0))
+							result = true;
+		break;
+	}
+
+	default:
+		result = false;
+	}
+
+	return result;
+
+}
+struct HomeAdress
+{
+	//РїРѕС‡С‚РѕРІС‹Р№ РёРЅРґРµРєСЃ, СЃС‚СЂР°РЅР°, РѕР±Р»Р°СЃС‚СЊ, СЂР°Р№РѕРЅ, РіРѕСЂРѕРґ, СѓР»РёС†Р°, РґРѕРј, РєРІР°СЂС‚РёСЂР°
+	string mail_index;
+	string country;
+	string region;
+	string district;//СЂР°Р№РѕРЅ
+	string city;
+	string street;
+	string house_number;
+	string flat_num;
+};
+struct Person
+{
+	string		 fio;
+	string		 sex;
+	DateBorn	 date;
+	string		 nation;
+	unsigned int weigth; // РІРµСЃ
+	unsigned int height;// rost
+	string		 telephone_num;
+	HomeAdress	 home_adress;
+
+};
+struct Patient
+{
+	//РЅРѕРјРµСЂ Р±РѕР»СЊРЅРёС†С‹; РѕС‚РґРµР»РµРЅРёРµ; РЅРѕРјРµСЂ РјРµРґРёС†РёРЅСЃРєРѕР№ РєР°СЂС‚С‹; РґРёР°РіРЅРѕР·; РіСЂСѓРїРїР° РєСЂРѕРІРё.
+	Person       person;
+	unsigned int number_hospital;//
+	int		 hospital_department;//
+	unsigned int number_medical_record;
+	string       diagnoses;
+	enum         blood_type{ I, II, III, IV};
+			
+} ;
 #endif // !_Patients
-/*
-создать текстовый файл «Пациент»: 
-    фамилия; имя; отчество; пол; национальность; рост; вес; дата рождения (год, месяц число); номер телефона; 
-     домашний адрес (почтовый индекс, страна, область, район, город, улица, дом, квартира); номер больницы; отделение;
-    номер медицинской карты; диагноз; группа крови. 
- Вывести данные про пациентов с 18 отделения
-*/
+
 void BaseLevelTask()
 {
 	/*
-Задание: 
-    создать текстовый файл с произвольной информацией. Организовать  просмотр содержимого файла. 
-    Организовать чтение и обработку данных из файла в соответствии с индивидуальным заданием. Сохранить полученные 
-    результаты в новый текстовый файл.
- «Пациент»: 
-    фамилия; имя; отчество; пол; национальность; рост; вес; дата рождения (год, месяц число); номер телефона; 
-     домашний адрес (почтовый индекс, страна, область, район, город, улица, дом, квартира); номер больницы; отделение;
-    номер медицинской карты; диагноз; группа крови. 
- Вывести данные про пациентов с 18 отделения
+Р—Р°РґР°РЅРёРµ:
+	СЃРѕР·РґР°С‚СЊ С‚РµРєСЃС‚РѕРІС‹Р№ С„Р°Р№Р» СЃ РїСЂРѕРёР·РІРѕР»СЊРЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРµР№. РћСЂРіР°РЅРёР·РѕРІР°С‚СЊ  РїСЂРѕСЃРјРѕС‚СЂ СЃРѕРґРµСЂР¶РёРјРѕРіРѕ С„Р°Р№Р»Р°.
+	РћСЂРіР°РЅРёР·РѕРІР°С‚СЊ С‡С‚РµРЅРёРµ Рё РѕР±СЂР°Р±РѕС‚РєСѓ РґР°РЅРЅС‹С… РёР· С„Р°Р№Р»Р° РІ СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРё СЃ РёРЅРґРёРІРёРґСѓР°Р»СЊРЅС‹Рј Р·Р°РґР°РЅРёРµРј. РЎРѕС…СЂР°РЅРёС‚СЊ РїРѕР»СѓС‡РµРЅРЅС‹Рµ
+	СЂРµР·СѓР»СЊС‚Р°С‚С‹ РІ РЅРѕРІС‹Р№ С‚РµРєСЃС‚РѕРІС‹Р№ С„Р°Р№Р».
+ В«РџР°С†РёРµРЅС‚В»:
+	С„Р°РјРёР»РёСЏ; РёРјСЏ; РѕС‚С‡РµСЃС‚РІРѕ; РїРѕР»; РЅР°С†РёРѕРЅР°Р»СЊРЅРѕСЃС‚СЊ; СЂРѕСЃС‚; РІРµСЃ; РґР°С‚Р° СЂРѕР¶РґРµРЅРёСЏ (РіРѕРґ, РјРµСЃСЏС† С‡РёСЃР»Рѕ); РЅРѕРјРµСЂ С‚РµР»РµС„РѕРЅР°;
+	 РґРѕРјР°С€РЅРёР№ Р°РґСЂРµСЃ (РїРѕС‡С‚РѕРІС‹Р№ РёРЅРґРµРєСЃ, СЃС‚СЂР°РЅР°, РѕР±Р»Р°СЃС‚СЊ, СЂР°Р№РѕРЅ, РіРѕСЂРѕРґ, СѓР»РёС†Р°, РґРѕРј, РєРІР°СЂС‚РёСЂР°); РЅРѕРјРµСЂ Р±РѕР»СЊРЅРёС†С‹; РѕС‚РґРµР»РµРЅРёРµ;
+	РЅРѕРјРµСЂ РјРµРґРёС†РёРЅСЃРєРѕР№ РєР°СЂС‚С‹; РґРёР°РіРЅРѕР·; РіСЂСѓРїРїР° РєСЂРѕРІРё.
+ Р’С‹РІРµСЃС‚Рё РґР°РЅРЅС‹Рµ РїСЂРѕ РїР°С†РёРµРЅС‚РѕРІ СЃ 18 РѕС‚РґРµР»РµРЅРёСЏ
 	*/
 
 	cout << "\nBase level task:\n";
+	Patient* p = new Patient[2];
+	p[0].person.fio = "Р’СЏС‡РµСЃР»Р°РІ Р“РѕСЂРѕРґРµС†РєРёР№ РђРЅРґСЂРµРµРІРёСЃ";
+	p[1].person.fio = "Р“Р°Р»РєРёРЅ РђСЂС‚РµРј Р’Р»Р°РґРёСЃР»Р°РІРѕРІРёС‡";
 
+	for (size_t i = 0; i < 2; i++)
+	{
+		p[i].hospital_department = 15 + rand() % 4;
+	}
+	FILE* f_out, * f_in;
+	f_out = fopen("patientdate", "wb");
+	fwrite(p, sizeof(Patient), 2, f_out);
+	fclose(f_out);
+	cout << "\nР”Р°РЅРЅС‹Рµ С…СЂР°РЅСЏС‰РёРµСЃСЏ РІ С„Р°Р№Р»Рµ <<patientdate.dat>>: \n";
+	f_in = fopen("patientdate", "rb");
+	Patient* buffer = new Patient[2];
+	fread(buffer, sizeof(Patient), 2, f_in);
+	f_out = fopen("patientfrom18depart", "wb");
+	int counter = 0;
+	for (size_t i = 0; i < 2; i++)
+	{
+		cout << "\t" << buffer[i].person.fio << " " << buffer[i].hospital_department << "\n";
+		if (buffer[i].hospital_department == 18)
+		{
+			fwrite(&buffer[i], sizeof(Patient), 1, f_out); counter++;
+		}
+
+	}
+	fclose(f_out);
+	fclose(f_in);
+	cout << "\nР”Р°РЅРЅС‹Рµ Рѕ РїР°С†РёРµРЅС‚Р°С… СЃ 18 РѕС‚РґРµР»РµРЅРёСЏ(Р·Р°РїРёСЃР°РЅРЅС‹/РїСЂРѕС‡РёС‚Р°РЅРЅС‹ РѕС‚РґРµР»СЊРЅС‹Рј Р±РёРЅР°СЂРЅС‹Рј С„Р°Р№Р»РѕРј): \n";
+	f_in = fopen("patientfrom18depart", "rb");
+	Patient* buf = (Patient*)malloc(counter * sizeof(Patient));
+	fread(buf, sizeof(Patient), counter, f_in);
+	for (size_t i = 0; i < counter; i++)
+	{
+		cout << "\t" << buf[i].person.fio << " " << buf[i].hospital_department << "\n";
+	}
+	fclose(f_in);
 }
